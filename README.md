@@ -1,6 +1,6 @@
 # Collection Search Bar
 
-A Balatro mod that adds a search bar to the collection menu.
+A Balatro (1.0.1) mod that adds a search bar to the collection menu.
 
 ## Requirements
 
