@@ -1,0 +1,36 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.module]
+source = "core.lua"
+before = "functions/UI_definitions.lua"
+name = "collectionsearchbar"
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = "local t = create_UIBox_generic_options({ back_func = G.STAGE == G.STAGES.RUN and 'options' or 'exit_overlay_menu', contents = {"
+position = 'at'
+payload = "local t = create_UIBox_generic_options({ back_func = G.STAGE == G.STAGES.RUN and 'options' or 'exit_overlay_menu', current_menu = 'your_collection', contents = {"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = "{n=G.UIT.C, config={align = \"cm\", minh = 1,r = 0.2, padding = 0.2, minw = 1, colour = args.colour or G.C.L_BLACK}, nodes={"
+position = 'after'
+payload = '''
+(args.current_menu == 'your_collection') and {n = G.UIT.R, config = { align = "cm", padding = 0.1, r = 0.1 }, nodes = {
+    create_text_input({ all_caps = true, ref_table = G.ARGS, ref_value = 'collection_search_input', extended_corpus = true, w = 6 }),
+    {n = G.UIT.C, config = { id = 'your_collection_search', align = "cm", maxw = 1, r = 0.1, hover = true, colour = G.C.RED, button = 'your_collection_search', shadow = true }, nodes = {
+        {n = G.UIT.R, config = { align = "cm", padding = 0.1, no_fill = true }, nodes = {
+            {n = G.UIT.T, config = { id = 'your_collection_search', text = 'Search', scale = 0.5, colour = G.C.UI.TEXT_LIGHT, shadow = true } }
+        }}
+    }}
+}} or nil,
+'''
+match_indent = true
+
